@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>오늘의 노래 ♫</title>
+<style>
+:root{--ink:#5960a5;--soft:#f6f5ff;--line:#e8e6f5;--card:#fff;--accent:#8d86e8}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;color:#45486e;background:linear-gradient(135deg,#fafaff,#f0efff);min-height:100vh}
+.app{max-width:1280px;margin:auto;padding:28px;display:grid;grid-template-columns:210px 1fr 310px;gap:24px;min-height:100vh}
+.side{padding:10px 4px}.logo{font-size:25px;font-weight:800;color:#5d62ae;margin-bottom:6px}.sub{font-size:11px;letter-spacing:2px;color:#9da0c5}.intro{line-height:1.7;margin:34px 0;color:#777aa3}.nav button{width:100%;border:0;background:none;text-align:left;padding:14px 18px;border-radius:14px;color:#777aa3;font-size:15px;margin:3px 0;cursor:pointer}.nav button.active{background:#eae8ff;color:#625fc1;font-weight:700}.hint{position:absolute;bottom:35px;font-size:12px;color:#aaaed0;line-height:1.8}
+.panel{background:rgba(255,255,255,.72);border:1px solid #eeeef8;border-radius:22px;box-shadow:0 15px 45px rgba(84,80,145,.08);backdrop-filter:blur(12px)}
+.calendar{padding:24px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}.month{font-size:25px;font-weight:800;color:#4e537f}.month button,.today{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 14px;color:#62679b;cursor:pointer}.month button{font-size:20px;border:0;background:transparent}.week,.grid{display:grid;grid-template-columns:repeat(7,1fr)}.week div{text-align:center;padding:12px 0;color:#8d91b5;font-size:12px}.week div:first-child{color:#e7849e}.week div:last-child{color:#6ea4e1}.day{min-height:126px;border:1px solid var(--line);padding:10px;cursor:pointer;background:#fff9;border-radius:0;transition:.15s}.day:hover{background:#f7f6ff}.day.selected{outline:2px solid #aaa2f4;outline-offset:-2px;background:#f8f7ff}.num{font-size:13px;color:#626795}.cover{width:64px;height:64px;object-fit:cover;border-radius:7px;display:block;margin:13px auto 5px;box-shadow:0 5px 12px #7773}.note{text-align:center;font-size:12px;color:#777aa3}.detail{padding:22px}.date{font-size:13px;color:#9699bc;margin-bottom:18px}.bigcover{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;box-shadow:0 10px 25px #7772;background:#f1f0fb}.song{margin-top:18px}.song h2{font-size:20px;margin:0 0 6px;color:#35395f}.artist{color:#8589ad}.lyric{font-size:13px;line-height:1.7;color:#a0a3c0;margin:18px 0}.bar{height:4px;background:#d7d6e3;border-radius:9px;overflow:hidden}.bar i{display:block;width:58%;height:100%;background:#686df0}.times{display:flex;justify-content:space-between;font-size:11px;color:#7479b2;margin-top:5px}.controls{display:flex;justify-content:space-around;align-items:center;margin:22px 0;font-size:25px}.play{width:50px;height:50px;border-radius:50%;border:0;background:#686df0;color:#fff;cursor:pointer}.uploadbox{margin-top:20px;padding:14px;background:#f6f5ff;border-radius:14px}.uploadbox label{display:block;text-align:center;padding:10px;border:1px dashed #aaa5dd;border-radius:10px;cursor:pointer;color:#6866ad;font-size:13px}.uploadbox input{display:none}.meta{display:grid;gap:8px;margin-top:10px}.meta input{width:100%;padding:9px;border:1px solid #e1e0ef;border-radius:8px}.save{width:100%;margin-top:8px;padding:10px;border:0;border-radius:10px;background:#706ed0;color:#fff;cursor:pointer}
+@media(max-width:1000px){.app{grid-template-columns:1fr;padding:14px}.side{display:none}.detail{order:-1}.calendar{padding:14px}.day{min-height:90px}.cover{width:48px;height:48px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="logo">오늘의 노래 ♫</div><div class="sub">MY DAILY SONG</div>
+  <div class="intro">매일의 기분을,<br>노래 한 곡으로.</div>
+  <div class="nav"><button class="active">▣　달력</button><button>♫　라이브러리</button><button>⚙　설정</button></div>
+  <div class="hint">좋아하는 노래가<br>오늘도 너와 함께하길 ♡</div>
+</aside>
+<main class="panel calendar">
+  <div class="top"><div class="month"><button id="prev">‹</button><span id="month"></span><button id="next">›</button></div><button class="today" id="today">▣ 이번 달</button></div>
+  <div class="week"><div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div></div>
+  <div class="grid" id="grid"></div>
+</main>
+<aside class="panel detail">
+  <div class="date" id="date">날짜를 선택해줘</div>
+  <img class="bigcover" id="bigcover" alt="앨범 커버">
+  <div class="song"><h2 id="title">오늘의 노래</h2><div class="artist" id="artist">아직 기록이 없어요</div></div>
+  <div class="lyric" id="lyric">음악 캡처를 올리면 이곳에 기록돼요.</div>
+  <div class="bar"><i></i></div><div class="times"><span>02:01</span><span>03:39</span></div>
+  <div class="controls"><span>↶</span><span>◀</span><button class="play">▶</button><span>▶</span><span>↷</span></div>
+  <div class="uploadbox">
+    <label for="file">＋ 음악 재생 캡처 추가</label><input id="file" type="file" accept="image/*">
+    <div class="meta"><input id="songTitle" placeholder="노래 제목"><input id="songArtist" placeholder="가수"></div>
+    <button class="save" id="save">이 날짜에 저장</button>
+  </div>
+</aside>
+</div>
+<script>
+const KEY='daily-song-calendar-v1';
+let data=JSON.parse(localStorage.getItem(KEY)||'{}');
+let view=new Date(), selected=new Date(); let pending=null;
+const $=id=>document.getElementById(id);
+function key(d){return d.toISOString().slice(0,10)}
+function render(){
+  $('month').textContent=`${view.getFullYear()} ${String(view.getMonth()+1).padStart(2,'0')}`;
+  const first=new Date(view.getFullYear(),view.getMonth(),1).getDay(), days=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
+  $('grid').innerHTML='';
+  for(let i=0;i<first;i++) $('grid').appendChild(document.createElement('div')).className='day';
+  for(let n=1;n<=days;n++){
+    const d=new Date(view.getFullYear(),view.getMonth(),n), k=key(d), item=data[k];
+    const el=document.createElement('div'); el.className='day'+(k===key(selected)?' selected':'');
+    el.innerHTML=`<div class="num">${n}</div>${item?`<img class="cover" src="${item.cover}"><div class="note">♫</div>`:''}`;
+    el.onclick=()=>{selected=d; show(k); render()};
+    $('grid').appendChild(el);
+  }
+}
+function show(k){
+ const item=data[k]; $('date').textContent=k;
+ if(item){$('bigcover').src=item.cover;$('title').textContent=item.title||'오늘의 노래';$('artist').textContent=item.artist||'';
+ }else{$('bigcover').removeAttribute('src');$('bigcover').style.background='#f1f0fb';$('title').textContent='오늘의 노래';$('artist').textContent='아직 기록이 없어요'}
+}
+$('prev').onclick=()=>{view.setMonth(view.getMonth()-1);render()};$('next').onclick=()=>{view.setMonth(view.getMonth()+1);render()};
+$('today').onclick=()=>{view=new Date();selected=new Date();render();show(key(selected))};
+$('file').onchange=e=>{
+ const f=e.target.files[0]; if(!f)return;
+ const img=new Image(); img.onload=()=>{
+   const c=document.createElement('canvas'), size=Math.floor(Math.min(img.width*.82,img.height*.45));
+   const x=Math.max(0,(img.width-size)/2), y=Math.max(0,img.height*.17);
+   c.width=c.height=800; c.getContext('2d').drawImage(img,x,y,size,size,0,0,800,800);
+   pending=c.toDataURL('image/jpeg',.9); $('bigcover').src=pending;
+ }; img.src=URL.createObjectURL(f);
+};
+$('save').onclick=()=>{
+ if(!pending){alert('먼저 음악 캡처를 올려줘!');return}
+ const k=key(selected); data[k]={cover:pending,title:$('songTitle').value||'오늘의 노래',artist:$('songArtist').value||''};
+ localStorage.setItem(KEY,JSON.stringify(data)); show(k); render();
+};
+selected=new Date();view=new Date();render();show(key(selected));
+</script>
+</body></html>
