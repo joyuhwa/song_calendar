@@ -531,7 +531,7 @@
         <div class="intro">
             매일의 기분을,<br>
             노래 한 곡으로.<br><br>
-            260916. 10:32
+            260916. 10:45
         </div>
 
         <div class="nav">
@@ -920,6 +920,13 @@
 
                 selected = date;
 
+                const item = data[dateKey];
+
+                pending =
+                    item
+                        ? item.cover
+                        : null;
+
                 show(dateKey);
 
                 render();
@@ -1113,7 +1120,7 @@
 
     /* =========================
        저장
-    ========================== */
+    ========================= */
 
     $("save").onclick = () => {
 
@@ -1130,11 +1137,13 @@
         }
 
 
+        /* 현재 선택된 날짜 */    
+
         const dateKey =
             key(selected);
 
 
-        /* 데이터 저장 */
+        /* 현재 입력한 내용을 바로 저장 */
 
         data[dateKey] = {
 
@@ -1159,7 +1168,11 @@
         );
 
 
-        /* 화면 업데이트 */
+        /*
+            저장하자마자
+            오른쪽 화면과 달력을
+            동시에 새로 그립니다.
+        */
 
         show(dateKey);
 
