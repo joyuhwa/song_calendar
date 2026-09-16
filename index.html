@@ -531,7 +531,7 @@
         <div class="intro">
             매일의 기분을,<br>
             노래 한 곡으로.<br><br>
-            260916. 10:27
+            260916. 10:32
         </div>
 
         <div class="nav">
@@ -764,7 +764,18 @@
 
     function key(date) {
 
-        return date.toISOString().slice(0, 10);
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(date.getMonth() + 1)
+            .padStart(2, "0");
+
+        const day =
+            String(date.getDate())
+            .padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
 
     }
 
