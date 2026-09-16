@@ -531,7 +531,7 @@
         <div class="intro">
             매일의 기분을,<br>
             노래 한 곡으로.<br><br>
-            260916. 10:45
+            260916. 10:54
         </div>
 
         <div class="nav">
@@ -694,13 +694,13 @@
             <div class="meta">
 
                 <input
-                    id="songTitle"
-                    placeholder="노래 제목"
-                >
-
-                <input
                     id="songArtist"
                     placeholder="가수"
+                 >
+
+                <input
+                    id="songTitle"
+                    placeholder="노래 제목"
                 >
 
             </div>
@@ -982,6 +982,12 @@
                 item.artist ||
                 "";
 
+            $("songArtist").value =
+                item.artist || "";
+
+            $("songTitle").value =
+                item.title || "";
+
 
             $("description").textContent =
                 "오늘의 노래로 기록했어요 ♡";
@@ -1117,7 +1123,40 @@
     };
 
 
+    /* =========================
+          입력창 Enter 이동
+    ========================= */
 
+    $("songArtist").addEventListener(
+        "keydown",
+        (event) => {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                $("songTitle").focus();
+
+            }
+
+        }
+    );
+
+
+    $("songTitle").addEventListener(
+        "keydown",
+        (event) => {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                $("save").click();
+
+            }
+
+        }
+    );
     /* =========================
        저장
     ========================= */
